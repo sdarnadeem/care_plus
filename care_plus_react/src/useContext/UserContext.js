@@ -1,11 +1,15 @@
 import React, { createContext, useState } from "react";
 export const UserDataContext = createContext({
-  harsh: "hi",
+  updateAdminData: () => {},
 });
 
 const UserContext = (props) => {
+  const [adminData, setAdminData] = useState({});
+  const updateAdminData = (data) => {
+    setAdminData(data);
+  };
   return (
-    <UserDataContext.Provider value={{}}>
+    <UserDataContext.Provider value={{ updateAdminData, adminData }}>
       {props.children}
     </UserDataContext.Provider>
   );
