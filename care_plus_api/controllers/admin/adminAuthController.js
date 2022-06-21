@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
 const signToken = (id) => {
-  //   console.log(id);
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
@@ -202,7 +201,6 @@ exports.forgetPassword = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       status: "error",
       message: "Internal server Error",
@@ -241,7 +239,6 @@ exports.changePasswordOTP = async (req, res) => {
   try {
     const { email, password, passwordConfirm } = req.body;
     const otp = req.body.otp * 1;
-    console.log(req.body);
     const checkEmail = await Admin.findOne({ email }).select("+password");
     if (checkEmail) {
       const adminOTP = await AdminOTP.findOne({ email });
@@ -302,7 +299,6 @@ exports.protect = async (req, res, next) => {
           message: "Something went wrong",
         });
       } else {
-        console.log("first");
       }
 
       req.admin = currentUser;
@@ -320,8 +316,6 @@ exports.protect = async (req, res, next) => {
 
 exports.logout = async (req, res) => {
   try {
-    console.log("log");
-
     res.status(200).clearCookie("bearerToken");
     send({ message: "Logout successfully" });
   } catch (error) {
@@ -334,7 +328,6 @@ exports.logout = async (req, res) => {
 
 exports.getUserData = async (req, res) => {
   try {
-    console.log(req.admin);
     const admin = await Admin.findById(req.admin._id);
     res.status(200).json({ status: "success", message: "Successfully", admin });
   } catch (error) {
