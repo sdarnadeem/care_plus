@@ -25,6 +25,7 @@ const createSendToken = (user, statusCode, res) => {
   res.cookie("bearerToken", token, cookieOptions);
   res.status(statusCode).json({
     status: "success",
+    message: "Login Successfully",
     data: {
       user,
       token,
@@ -102,7 +103,8 @@ exports.adminLogin = async (req, res) => {
 
 exports.otpLogin = async (req, res) => {
   try {
-    const { email, otp } = req.body;
+    const { email } = req.body;
+    const otp = req.body.otp * 1;
 
     const adminOTP = await AdminOTP.findOne({ email });
     if (adminOTP) {
@@ -280,13 +282,14 @@ exports.changePasswordOTP = async (req, res) => {
 exports.protect = async (req, res, next) => {
   try {
     let token;
+
     if (req.headers.cookie && req.headers.cookie.startsWith("bearer")) {
       token = req.headers.cookie.split("=")[1];
     }
 
     if (!token) {
       res.status(401).json({
-        status: "success",
+        status: "unauthorized",
         message: "you are not logged in ! please log in to get access",
       });
     } else {
@@ -298,6 +301,8 @@ exports.protect = async (req, res, next) => {
           status: "success",
           message: "Something went wrong",
         });
+      } else {
+        console.log("first");
       }
 
       req.admin = currentUser;
@@ -306,10 +311,10 @@ exports.protect = async (req, res, next) => {
     }
     console.log("hello form auth.protect");
   } catch (error) {
-    // res.status(401).json({
-    //   status: "sadsa",
-    //   message: "you are not logged in ! please log in to get access",
-    // });
+    res.status(401).clearCookie("bearerToken").json({
+      status: "unauthorized",
+      message: "you are not logged in ! please log in to get error access",
+    });
   }
 };
 
@@ -324,5 +329,18 @@ exports.logout = async (req, res) => {
       status: "error",
       message: "Internal Server Error",
     });
+  }
+};
+
+exports.getUserData = async (req, res) => {
+  try {
+    console.log(req.admin);
+    const admin = await Admin.findById(req.admin._id);
+    res.status(200).json({ status: "success", message: "Successfully", admin });
+  } catch (error) {
+    res
+      .status(401)
+      .json({ status: "unauthorized", message: "unauthorized User" })
+      .clearCookie("bearerToken");
   }
 };

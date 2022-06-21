@@ -10,5 +10,8 @@ router
   .post(adminAuthController.adminLogin);
 
 router.route("/otpLogin").post(adminAuthController.otpLogin);
+router
+  .route("/getUserData")
+  .get(adminAuthController.protect, adminAuthController.getUserData);
 
 module.exports = router;
