@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Login from "./components/login/Login";
 import IsLoading from "./reusableComponent/isLoading/IsLoading";
-import DashBoard from "./components/dashBoard/DashBoard";
+import Dashboard from "./components/dashboard/Dashboard";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserDataContext } from "./useContext/UserContext";
@@ -35,7 +35,7 @@ const App = () => {
       ) : (
         <Routes>
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/" element={<DashBoard adminData={adminData} />} />
+          <Route exact path="/" element={<Dashboard adminData={adminData} />} />
         </Routes>
       )}
     </>

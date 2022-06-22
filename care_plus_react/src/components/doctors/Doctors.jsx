@@ -1,22 +1,20 @@
-import React, { useMemo, useCallback, useRef } from "react";
-
-import { Box, Tab, Tabs, Grid, Button } from "@mui/material";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
-
-import Dialog from "../dialog/Dialog";
-import data from "./commissionData";
 
 import { useNavigate } from "react-router-dom";
 
-const Commission = () => {
-  const [value, setValue] = React.useState(0);
-  const gridRef = useRef();
+import { Button, Grid } from "@mui/material";
+
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+import { rowData, columnDefs } from "./doctorsData";
+import Dialog from "../dialog/Dialog";
+
+const Doctors = () => {
   const navigate = useNavigate();
-
-  const [columns] = React.useState(data.columns);
-  const [rows] = React.useState(data.rows);
-
-  const [selected, setSelected] = React.useState();
+  const [selected, setSelected] = useState();
+  const gridRef = useRef();
   const [dialogDetails, setDialogDetails] = React.useState({
     title: "",
     content: "",
@@ -26,10 +24,7 @@ const Commission = () => {
     noFun: () => {},
   });
   const [openDialog, setOpenDialog] = React.useState(false);
-
-  const handleChange = useCallback((event, newValue) => {
-    setValue(newValue);
-  }, []);
+  columnDefs.checkboxSelection = () => true;
 
   const defaultColDef = useMemo(
     () => ({
@@ -38,6 +33,9 @@ const Commission = () => {
     }),
     []
   );
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const rowClickedListener = useCallback(({ data }) => {
     console.log("cellClicked", data);
@@ -54,38 +52,37 @@ const Commission = () => {
     gridRef.current.api.setFilterModel(null);
   }, []);
 
-  const handleRowDoubleClicked = useCallback(
-    (row) => {
+  const handleRowDoubleClicked = (row) => {
+    setOpenDialog(true);
+    setDialogDetails({
+      title: `${selected.firstName} ${selected.lastName}`,
+      content: `I'm  ${selected.firstName} ${selected.lastName}, I'm a heart sergon at BareHills lab. I've eight years of experience in the specified field.`,
+      noText: "Delete",
+      yesText: "Know More",
+      yesFun: () => {
+        navigate(`admin/doctor/${selected.id}`);
+        setOpenDialog(false);
+      },
+      noFun: () => {
+        setOpenDialog(false);
+      },
+    });
+  };
+
+  const handleButtonClick = (event) => {
+    if (event === "newDoctor") {
+      navigate("/admin/doctor/update");
+    }
+
+    if (selected && event === "update") {
+      navigate(`/admin/doctor/update?id=${selected.id}`);
+    }
+
+    if (event === "delete") {
       setOpenDialog(true);
       setDialogDetails({
-        title: `${selected.name}`,
-        content: ` ${selected.name} is a popular general medicine clininc based in the west coast`,
-        noText: "Update",
-        yesText: "Know More",
-        yesFun: () => {
-          navigate(`admin/clinic/${selected.id}`);
-          setOpenDialog(false);
-        },
-        noFun: () => {
-          setOpenDialog(false);
-        },
-      });
-    },
-    [selected, navigate]
-  );
-
-  const handleCloseDialog = useCallback(() => {
-    setOpenDialog(false);
-  }, []);
-
-  const handleButtonClick = useCallback(() => {
-    console.log("selected", selected);
-    if (selected) {
-      setOpenDialog(true);
-      console.log(selected);
-      setDialogDetails({
-        title: `Update ${selected.name} clinic`,
-        content: `Are you sure you want to update ${selected.name} clinic`,
+        title: `Delete ${selected.firstName} ${selected.lastName} doctor`,
+        content: `Are you sure you want to delete ${selected.firstName} ${selected.lastName} doctor`,
         noText: "Cancel",
         yesText: "Confirm",
         yesFun: () => {
@@ -96,13 +93,17 @@ const Commission = () => {
         },
       });
     }
-  }, [selected]);
+  };
   return (
     <>
-      <Grid container spacing={1}>
-        <Grid item height="100%" alignItems="center">
-          <Button variant="outlined" size="small" onClick={clearFilters}>
-            Add Commission
+      <Grid container spacing={2}>
+        <Grid item>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={handleButtonClick.bind(null, "newDoctor")}
+          >
+            Add Doctor
           </Button>
         </Grid>
 
@@ -111,49 +112,37 @@ const Commission = () => {
             <Grid item>
               <Button
                 variant="outlined"
-                size="small"
-                onClick={handleButtonClick}
+                size="medium"
+                onClick={handleButtonClick.bind(null, "update")}
               >
-                Update Commission
+                Update Doctor
               </Button>
             </Grid>
             <Grid item>
               <Button
                 variant="outlined"
-                size="small"
-                onClick={handleButtonClick}
+                size="medium"
+                onClick={handleButtonClick.bind(null, "delete")}
               >
-                Delete Commission
+                Delete Doctor
               </Button>
             </Grid>
           </>
         )}
-        <Grid item height="100%" alignItems="center">
-          <Button variant="outlined" size="small" onClick={clearFilters}>
+        <Grid item>
+          <Button variant="outlined" size="medium" onClick={clearFilters}>
             Reset Filters
           </Button>
         </Grid>
       </Grid>
-      <Box
-        sx={{
-          width: "100%",
-          bgcolor: "background.paper",
-        }}
-      >
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="Clinic Commission" />
-          <Tab label="Doctor Commission" />
-        </Tabs>
-      </Box>
-
       <div
         className="ag-theme-alpine"
         style={{ height: "80vh", width: "100%" }}
       >
         <AgGridReact
           ref={gridRef}
-          rowData={rows}
-          columnDefs={columns}
+          rowData={rowData}
+          columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           animateRows={true}
           rowSelection="multiple"
@@ -162,7 +151,7 @@ const Commission = () => {
           getRowClass={getRowClass}
           checkboxSelection={true}
           onRowDoubleClicked={handleRowDoubleClicked}
-        ></AgGridReact>
+        />
       </div>
       {openDialog && selected && (
         <Dialog
@@ -180,4 +169,4 @@ const Commission = () => {
   );
 };
 
-export default Commission;
+export default Doctors;
