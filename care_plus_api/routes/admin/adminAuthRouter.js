@@ -14,4 +14,6 @@ router
   .route("/getUserData")
   .get(adminAuthController.protect, adminAuthController.getUserData);
 
+router.route("/logout").get(adminAuthController.logout);
+
 module.exports = router;

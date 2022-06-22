@@ -316,9 +316,12 @@ exports.protect = async (req, res, next) => {
 
 exports.logout = async (req, res) => {
   try {
-    res.status(200).clearCookie("bearerToken");
-    send({ message: "Logout successfully" });
+    res
+      .status(200)
+      .clearCookie("bearerToken")
+      .json({ message: "Logout successfully", status: "Success" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: "error",
       message: "Internal Server Error",

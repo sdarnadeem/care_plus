@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import content from "./leftSideContent";
 import c from "./LeftSide.module.css";
 import { Grid, Typography } from "@mui/material";
+import axios from "axios";
 
 const LeftSide = () => {
   const [searchParams] = useSearchParams();
@@ -15,8 +16,12 @@ const LeftSide = () => {
 
   const activeTab = tab === undefined ? "dashboard" : tab;
 
-  const handleLogout = () => {
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get("/api/v1/admin/logout");
+      console.log(res);
+      navigate("/login", { replace: true });
+    } catch (error) {}
   };
 
   const logout = (slug, text) => {
