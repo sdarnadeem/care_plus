@@ -27,11 +27,12 @@ const AdminProfile = () => {
 
       setError(null);
 
-      const data = { oldPassword, newPassword, confirmPassword };
+      // const data = { oldPassword, newPassword, confirmPassword };
       const res = await axios.post("/api/v1/admin/change/admin/password", {
         currentPassword: oldPassword,
         password: newPassword,
         passwordConfirm: confirmPassword,
+        // add snackbar with res.data.message
       });
 
       console.log(res);
