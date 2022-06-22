@@ -73,7 +73,7 @@ const LeftSide = () => {
         item
       >
         <img
-          src="https://st3.depositphotos.com/16262510/33731/v/1600/depositphotos_337310436-stock-illustration-demo-vector-icon-isolated-on.jpg"
+          src="/images/carePlusLogo.svg"
           alt="logo"
           style={{ width: "70px", height: "70px" }}
         />
