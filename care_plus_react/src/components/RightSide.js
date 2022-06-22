@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
@@ -6,11 +6,14 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import { Textarea } from "@chakra-ui/react";
+import { UserDataContext } from "./../useContext/UserContext";
 
 import c from "./RightSide.module.css";
 import { Button } from "@mui/material";
 
 const RightSide = () => {
+  const { updateAdminData, adminData } = useContext(UserDataContext);
+
   return (
     <Stack spacing={2}>
       <Paper margin="10px">
@@ -28,7 +31,7 @@ const RightSide = () => {
             sx={{ width: 56, height: 56 }}
             mb={"20px"}
           />
-          <Typography variant="h5">Nasyx Nadeem</Typography>
+          <Typography variant="h5">{adminData.name}</Typography>
         </Grid>
       </Paper>
       <Paper>
