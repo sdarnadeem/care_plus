@@ -1,18 +1,31 @@
 import React from "react";
 
-import {
-  Grid,
-  Button,
-  Typography,
-  Divider,
-  Avatar,
-  TextField,
-} from "@mui/material";
-
+import { Grid, Button, Typography, Divider } from "@mui/material";
+import PasswordField from "../passwordField/PasswordField";
 const AdminProfile = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handlePassword = () => {
-    setShowPassword((prev) => !prev);
+  const [error, setError] = React.useState(null);
+  const oldPasswordRef = React.useRef();
+  const newPasswordRef = React.useRef();
+  const confirmPasswordRef = React.useRef();
+
+  const submitHandler = () => {
+    const oldPassword = oldPasswordRef.current.value;
+    const newPassword = newPasswordRef.current.value;
+    const confirmPassword = confirmPasswordRef.current.value;
+
+    if (!oldPassword && oldPassword === "") {
+      return setError("Old Password Can't be empty");
+    } else if (!newPassword && newPassword === "") {
+      return setError("New Password Can't be empty");
+    } else if (!confirmPassword && confirmPassword === "") {
+      return setError("Confirm Password Can't be empty");
+    } else if (newPassword !== confirmPassword) {
+      return setError("New Password and Confirm Password do not match");
+    }
+
+    setError(null);
+
+    const data = { oldPassword, newPassword, confirmPassword };
   };
   return (
     <>
@@ -26,46 +39,26 @@ const AdminProfile = () => {
       <Divider />
       <Grid container direction="column">
         <Grid item>
-          <TextField
-            margin="dense"
-            id="old"
-            label="Old Password"
-            type={showPassword ? "text" : "password"}
-            max="100"
-            min="1"
-            variant="standard"
-            style={{ marginRight: "20px" }}
-            inputRef={""}
-          />
+          <PasswordField label="Old Password" fRef={oldPasswordRef} />
         </Grid>
         <Grid item>
-          <TextField
-            margin="dense"
-            id="new"
-            label="New Password"
-            type={showPassword ? "text" : "password"}
-            max="100"
-            min="1"
-            variant="standard"
-            style={{ marginRight: "20px" }}
-            inputRef={""}
-          />
+          <PasswordField label="New Password" fRef={newPasswordRef} />
         </Grid>
         <Grid item>
-          <TextField
-            margin="dense"
-            id="new"
+          <PasswordField
             label="Confirm New Password"
-            type={showPassword ? "text" : "password"}
-            max="100"
-            min="1"
-            variant="standard"
-            style={{ marginBottom: "20px" }}
-            inputRef={""}
+            fRef={confirmPasswordRef}
           />
         </Grid>
+        {error && (
+          <Grid item>
+            <Typography variant="caption" component="p" sx={{ color: "red" }}>
+              *{error}
+            </Typography>
+          </Grid>
+        )}
         <Grid item>
-          <Button variant="contained" onClick={handlePassword}>
+          <Button variant="contained" onClick={submitHandler}>
             Submit
           </Button>
         </Grid>
