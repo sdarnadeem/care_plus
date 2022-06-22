@@ -16,7 +16,7 @@ const LeftSide = () => {
   const activeTab = tab === undefined ? "dashboard" : tab;
 
   const handleLogout = () => {
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   const logout = (slug, text) => {
