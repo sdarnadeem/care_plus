@@ -4,12 +4,12 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import { Link } from "react-router-dom";
 
-import content from "./leftSideContent";
-import c from "./LeftSide.module.css";
+import content from "../leftSideContent";
+import c from "./Drawer.module.css";
 import { Grid, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const LeftSide = () => {
+const Drawer = () => {
   const [searchParams] = useSearchParams();
   const tab = searchParams.get("tab");
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const LeftSide = () => {
   const activeTab = tab === undefined ? "dashboard" : tab;
 
   const handleLogout = () => {
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   const logout = (slug, text) => {
@@ -65,22 +65,7 @@ const LeftSide = () => {
     );
   };
   return (
-    <Grid container wrap="nowrap" direction="column">
-      <Grid
-        sx={{
-          height: "100px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        item
-      >
-        <img
-          src="https://st3.depositphotos.com/16262510/33731/v/1600/depositphotos_337310436-stock-illustration-demo-vector-icon-isolated-on.jpg"
-          alt="logo"
-          style={{ width: "100px", height: "70px" }}
-        />
-      </Grid>
+    <Grid container>
       <Grid item>
         <Stack
           style={{ padding: "10px" }}
@@ -102,4 +87,4 @@ const LeftSide = () => {
   );
 };
 
-export default LeftSide;
+export default Drawer;

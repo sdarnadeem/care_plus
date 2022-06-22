@@ -22,14 +22,6 @@
   text-decoration: none;
   color: inherit;
 }
-@media only screen and (max-width: 1000px) {
-  .link {
-    display: none;
-  }
-  .logout {
-    display: none;
-  }
-}
 
 .tab:hover {
   color: white;
