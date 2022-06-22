@@ -8,6 +8,7 @@ import Fees from "./fees/Fees.js";
 import Payments from "./payments/Payments.js";
 import Commission from "./commission/Commission";
 import AdminProfile from "./adminProfile/AdminProfile.js";
+import Logout from "./logout/Logout.js";
 
 import { Stack } from "@mui/material";
 import Patient from "./patient/Patient.js";
@@ -35,6 +36,8 @@ const MiddleSide = () => {
         return <Commission />;
       case "admin-profile":
         return <AdminProfile />;
+      case "logout":
+        return <Logout />;
       default:
         return <Analytics />;
     }
