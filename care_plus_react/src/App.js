@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Login from "./components/login/Login";
 import IsLoading from "./reusableComponent/isLoading/IsLoading";
-import Dashboard from "./components/dashboard/DashBoard";
+import Dashboard from "./components/dashBoard/DashBoard";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserDataContext } from "./useContext/UserContext";

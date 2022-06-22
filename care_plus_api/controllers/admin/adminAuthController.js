@@ -140,141 +140,141 @@ exports.otpLogin = async (req, res) => {
   }
 };
 
-exports.forgetPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email) {
-      res.status(401).json({
-        status: "success",
-        message: "Invalid Email Id",
-      });
-    }
-    const admin = await Admin.findOne({ email });
-    if (!admin) {
-      res.status(404).json({
-        status: "success",
-        message: "Email id not found",
-      });
-    } else {
-      const otp =
-        `${Math.trunc(Math.random() * 9 + 1)}${Math.trunc(
-          Math.random() * 9 + 1
-        )}${Math.trunc(Math.random() * 9 + 1)}${Math.trunc(
-          Math.random() * 9 + 1
-        )}` * 1;
-      const checkOTP = await AdminOTP.findOne({ email });
-      if (!checkOTP) {
-        await AdminOTP.create({
-          email,
-          otp,
-        });
-        console.log(otp);
-        res.status(200).json({
-          status: "success",
-          message: "OTP Send To you Email Id",
-        });
-      } else {
-        checkOTP.otp = otp;
-        await checkOTP.save();
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.NODEMAILER_MAIL,
-            pass: process.env.NODEMAILER_PASS,
-          },
-        });
-        const mailOptions = {
-          from: process.env.NODEMAILER_MAIL,
-          to: email,
-          subject: "OTP Verification Email",
-          text: `Your otp is ${otp}`,
-        };
-        console.log(otp);
-        transporter.sendMail(mailOptions, (err, info) => {
-          if (err) console.log(err);
-        });
+// exports.forgetPassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     if (!email) {
+//       res.status(401).json({
+//         status: "success",
+//         message: "Invalid Email Id",
+//       });
+//     }
+//     const admin = await Admin.findOne({ email });
+//     if (!admin) {
+//       res.status(404).json({
+//         status: "success",
+//         message: "Email id not found",
+//       });
+//     } else {
+//       const otp =
+//         `${Math.trunc(Math.random() * 9 + 1)}${Math.trunc(
+//           Math.random() * 9 + 1
+//         )}${Math.trunc(Math.random() * 9 + 1)}${Math.trunc(
+//           Math.random() * 9 + 1
+//         )}` * 1;
+//       const checkOTP = await AdminOTP.findOne({ email });
+//       if (!checkOTP) {
+//         await AdminOTP.create({
+//           email,
+//           otp,
+//         });
+//         console.log(otp);
+//         res.status(200).json({
+//           status: "success",
+//           message: "OTP Send To you Email Id",
+//         });
+//       } else {
+//         checkOTP.otp = otp;
+//         await checkOTP.save();
+//         const transporter = nodemailer.createTransport({
+//           service: "gmail",
+//           auth: {
+//             user: process.env.NODEMAILER_MAIL,
+//             pass: process.env.NODEMAILER_PASS,
+//           },
+//         });
+//         const mailOptions = {
+//           from: process.env.NODEMAILER_MAIL,
+//           to: email,
+//           subject: "OTP Verification Email",
+//           text: `Your otp is ${otp}`,
+//         };
+//         console.log(otp);
+//         transporter.sendMail(mailOptions, (err, info) => {
+//           if (err) console.log(err);
+//         });
 
-        res.status(200).json({
-          status: "success",
-          message: "OTP Send To you Email Id",
-        });
-      }
-    }
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "Internal server Error",
-    });
-  }
-};
+//         res.status(200).json({
+//           status: "success",
+//           message: "OTP Send To you Email Id",
+//         });
+//       }
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: "Internal server Error",
+//     });
+//   }
+// };
 
-exports.userProfileChangePassword = async (req, res) => {
-  try {
-    const { id, password, passwordConfirm } = req.body;
-    if (password === passwordConfirm) {
-      const admin = await Admin.findById(id).select("+password");
-      admin.password = req.body.password;
-      admin.passwordConfirm = req.body.password;
-      await admin.save();
+// exports.userProfileChangePassword = async (req, res) => {
+//   try {
+//     const { id, password, passwordConfirm } = req.body;
+//     if (password === passwordConfirm) {
+//       const admin = await Admin.findById(id).select("+password");
+//       admin.password = req.body.password;
+//       admin.passwordConfirm = req.body.password;
+//       await admin.save();
 
-      res.status(200).json({
-        status: "success",
-        message: "Password Changed Successfully ",
-      });
-    } else {
-      res.status(409).json({
-        status: "conflict",
-        message: "Password Must Be Same",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "Internal server Error",
-    });
-  }
-};
+//       res.status(200).json({
+//         status: "success",
+//         message: "Password Changed Successfully ",
+//       });
+//     } else {
+//       res.status(409).json({
+//         status: "conflict",
+//         message: "Password Must Be Same",
+//       });
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: "Internal server Error",
+//     });
+//   }
+// };
 
-exports.changePasswordOTP = async (req, res) => {
-  try {
-    const { email, password, passwordConfirm } = req.body;
-    const otp = req.body.otp * 1;
-    const checkEmail = await Admin.findOne({ email }).select("+password");
-    if (checkEmail) {
-      const adminOTP = await AdminOTP.findOne({ email });
-      var otpDate = new Date(adminOTP.updatedAt.getTime() + 10 * 60000);
-      if (adminOTP.otp === otp && otpDate > new Date(Date.now())) {
-        checkEmail.password = password;
-        checkEmail.passwordConfirm = passwordConfirm;
-        await checkEmail.save();
+// exports.changePasswordOTP = async (req, res) => {
+//   try {
+//     const { email, password, passwordConfirm } = req.body;
+//     const otp = req.body.otp * 1;
+//     const checkEmail = await Admin.findOne({ email }).select("+password");
+//     if (checkEmail) {
+//       const adminOTP = await AdminOTP.findOne({ email });
+//       var otpDate = new Date(adminOTP.updatedAt.getTime() + 10 * 60000);
+//       if (adminOTP.otp === otp && otpDate > new Date(Date.now())) {
+//         checkEmail.password = password;
+//         checkEmail.passwordConfirm = passwordConfirm;
+//         await checkEmail.save();
 
-        res.status(200).json({
-          status: "success",
-          message: "Password change Successfully",
-        });
-      } else if (otpDate < new Date(Date.now())) {
-        res.status(401).json({
-          status: "unauthorized ",
-          message: "Otp Expire",
-        });
-      } else {
-        res.status(401).json({
-          status: "unauthorized ",
-          message: "Incorrect OTP",
-        });
-      }
-    }
-    // res.status(404).json({
-    //   status: "not found ",
-    //   message: "Email not found",
-    // });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-};
+//         res.status(200).json({
+//           status: "success",
+//           message: "Password change Successfully",
+//         });
+//       } else if (otpDate < new Date(Date.now())) {
+//         res.status(401).json({
+//           status: "unauthorized ",
+//           message: "Otp Expire",
+//         });
+//       } else {
+//         res.status(401).json({
+//           status: "unauthorized ",
+//           message: "Incorrect OTP",
+//         });
+//       }
+//     }
+//     // res.status(404).json({
+//     //   status: "not found ",
+//     //   message: "Email not found",
+//     // });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "error",
+//       message: "Internal Server Error",
+//     });
+//   }
+// };
 
 exports.protect = async (req, res, next) => {
   try {
@@ -338,5 +338,28 @@ exports.getUserData = async (req, res) => {
       .status(401)
       .json({ status: "unauthorized", message: "unauthorized User" })
       .clearCookie("bearerToken");
+  }
+};
+
+exports.changeAdminPasswords = async (req, res) => {
+  try {
+    const { currentPassword, password, passwordConfirm } = req.body;
+    const admin = await Admin.findById(req.admin._id).select("+password");
+    console.log(await admin.correctPassword(currentPassword, admin.password));
+    if (!(await admin.correctPassword(currentPassword, admin.password))) {
+      res.status(403).json({
+        status: "unauthorized",
+        message: "Invalid Current password ",
+      });
+    } else {
+      admin.password = password;
+      admin.passwordConfirm = passwordConfirm;
+      await admin.save();
+      res
+        .status(200)
+        .json({ status: "success", message: "Password successfully changed" });
+    }
+  } catch (error) {
+    res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };

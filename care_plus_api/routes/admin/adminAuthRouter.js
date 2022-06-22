@@ -16,4 +16,8 @@ router
 
 router.route("/logout").get(adminAuthController.logout);
 
+router
+  .route("/change/admin/password")
+  .post(adminAuthController.protect, adminAuthController.changeAdminPasswords);
+
 module.exports = router;
