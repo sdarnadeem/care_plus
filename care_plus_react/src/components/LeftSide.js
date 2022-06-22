@@ -8,6 +8,7 @@ import content from "./leftSideContent";
 import c from "./LeftSide.module.css";
 import { Grid, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import axios from "axios";
 
 const LeftSide = () => {
   const [searchParams] = useSearchParams();
@@ -19,8 +20,13 @@ const LeftSide = () => {
 
   const activeTab = tab === undefined ? "dashboard" : tab;
 
-  const handleLogout = () => {
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get("/api/v1/admin/logout");
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const logout = (slug, text) => {
