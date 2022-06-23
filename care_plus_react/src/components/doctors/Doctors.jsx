@@ -165,6 +165,8 @@ const Doctors = () => {
           getRowClass={getRowClass}
           checkboxSelection={true}
           onRowDoubleClicked={handleRowDoubleClicked}
+          pagination={true}
+          paginationPageSize={5}
         />
       </div>
       {openDialog && selected && (
