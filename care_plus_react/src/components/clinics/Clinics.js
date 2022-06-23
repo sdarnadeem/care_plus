@@ -1,12 +1,10 @@
 import React, { useMemo, useCallback, useRef } from "react";
 import { Box, Tabs, Tab, Grid, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 
 import { columns, rows } from "./ClinicsData";
 import Dialog from "../dialog/Dialog";
+import NewClinic from "../newClinic/NewClinic";
 import { AgGridReact } from "ag-grid-react";
 
 const Clinics = () => {
@@ -14,6 +12,7 @@ const Clinics = () => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   const [selected, setSelected] = React.useState();
+  const [showNewClinicDialog, setShowNewClinicDialog] = React.useState(false);
   const [dialogDetails, setDialogDetails] = React.useState({
     title: "",
     content: "",
@@ -73,7 +72,7 @@ const Clinics = () => {
 
   const handleButtonClick = (text) => {
     if (text === "newClinic") {
-      navigate("admin/clinic/update");
+      setShowNewClinicDialog(true);
     } else if (selected) {
       setOpenDialog(true);
       if (text === "update") {
@@ -213,6 +212,12 @@ const Clinics = () => {
           yesText={dialogDetails.yesText}
           yesFun={dialogDetails.yesFun}
           noFun={dialogDetails.noFun}
+        />
+      )}
+      {showNewClinicDialog && (
+        <NewClinic
+          open={showNewClinicDialog}
+          handleClose={() => setShowNewClinicDialog(false)}
         />
       )}
     </>
