@@ -52,8 +52,8 @@ const Clinics = () => {
   const handleRowDoubleClicked = (row) => {
     setOpenDialog(true);
     setDialogDetails({
-      title: `${selected.firstName} ${selected.lastName}`,
-      content: `I'm  ${selected.firstName} ${selected.lastName}, I'm a heart sergon at BareHills lab. I've eight years of experience in the specified field.`,
+      title: `${selected.name} `,
+      content: `  ${selected.name}  is a popular heart-clinic based in San Fransico`,
       noText: "Delete",
       yesText: "Know More",
       yesFun: () => {
