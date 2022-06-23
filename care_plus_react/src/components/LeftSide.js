@@ -16,9 +16,9 @@ const LeftSide = () => {
   const navigate = useNavigate();
 
   const matches = useMediaQuery("(max-width:600px)");
-  console.log(matches);
 
-  const activeTab = tab === undefined ? "dashboard" : tab;
+  const activeTab = tab === null ? "dashboard" : tab;
+  console.log(tab);
 
   const handleLogout = async () => {
     try {
