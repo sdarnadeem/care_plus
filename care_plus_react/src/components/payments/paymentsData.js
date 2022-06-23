@@ -28,6 +28,7 @@ export const columns = [
   {
     field: "id",
     headerName: "ID",
+    width: "70px",
     filter: true,
     filterParams: filterTextParams,
   },
@@ -40,6 +41,7 @@ export const columns = [
   {
     field: "fees",
     headerName: "Fees",
+    width: "70px",
     filter: true,
     filterParams: filterTextParams,
   },
