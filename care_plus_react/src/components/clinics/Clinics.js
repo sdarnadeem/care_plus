@@ -11,6 +11,7 @@ const Clinics = () => {
   const gridRef = useRef();
   const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
+  const [data, setData] = React.useState();
   const [selected, setSelected] = React.useState();
   const [showNewClinicDialog, setShowNewClinicDialog] = React.useState(false);
   const [dialogDetails, setDialogDetails] = React.useState({
@@ -74,10 +75,18 @@ const Clinics = () => {
     if (text === "newClinic") {
       setShowNewClinicDialog(true);
     } else if (selected) {
-      setOpenDialog(true);
       if (text === "update") {
-        navigate(`admin/clinic/update?id=${selected.id}`);
+        setShowNewClinicDialog(true);
+        setData({
+          name: selected.name,
+          description: selected.description,
+          address: selected.officeAddress,
+          contact: selected.contact,
+          open: selected.open,
+          close: selected.close,
+        });
       } else if (text === "delete") {
+        setOpenDialog(true);
         setDialogDetails({
           title: `Delete ${selected.name} clinic`,
           content: `Are you sure you want to delete ${selected.name} clinic`,
@@ -220,6 +229,7 @@ const Clinics = () => {
         <NewClinic
           open={showNewClinicDialog}
           handleClose={() => setShowNewClinicDialog(false)}
+          data={data}
         />
       )}
     </>

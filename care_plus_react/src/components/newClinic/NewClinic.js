@@ -6,12 +6,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField, Typography } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { TimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
-const NewPatient = ({ open, handleClose }) => {
-  const [value, setValue] = React.useState(new Date());
+const NewPatient = ({ open, handleClose, data }) => {
+  const [openTime, setOpenTime] = React.useState(new Date(data.open));
+  const [closeTime, setCloseTime] = React.useState(new Date(data.close));
   const [error, setError] = React.useState(null);
   const nameRef = React.useRef();
   const descriptionRef = React.useRef();
@@ -72,6 +73,7 @@ const NewPatient = ({ open, handleClose }) => {
       <DialogTitle id="alert-dialog-title">Create a new clinic</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description"></DialogContentText>
+        {console.log(data.name)}
         <TextField
           autoFocus
           margin="dense"
@@ -79,6 +81,7 @@ const NewPatient = ({ open, handleClose }) => {
           label="Clinic Name"
           type="text"
           fullWidth
+          value={data.name}
           variant="standard"
           inputRef={nameRef}
         />
@@ -88,6 +91,7 @@ const NewPatient = ({ open, handleClose }) => {
           id="description"
           label="Description"
           type="text"
+          value={data.description}
           fullWidth
           variant="standard"
           inputRef={descriptionRef}
@@ -98,6 +102,7 @@ const NewPatient = ({ open, handleClose }) => {
           id="phone"
           label="Contact Details"
           type="text"
+          value={data.contact}
           variant="standard"
           inputRef={phoneRef}
         />
@@ -106,21 +111,23 @@ const NewPatient = ({ open, handleClose }) => {
           id="addresss"
           label="Addresss"
           type="text"
-          style={{ marginBottom: "10px" }}
+          value={data.address}
+          style={{ marginBottom: "30px" }}
           fullWidth
           variant="standard"
           inputRef={addressRef}
         />
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DesktopDatePicker
-            variant="standard"
-            fullwidth
-            label="Last Appointment"
-            value={value}
-            minDate={new Date("2017-01-01")}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
+          <TimePicker
+            label="Open Time"
+            value={openTime}
+            onChange={setOpenTime}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <TimePicker
+            label="Close Time"
+            value={closeTime}
+            onChange={setCloseTime}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
