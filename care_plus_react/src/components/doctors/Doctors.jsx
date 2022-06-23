@@ -10,8 +10,11 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 import { rowData, columnDefs } from "./doctorsData";
 import Dialog from "../dialog/Dialog";
+import NewDoctor from "../newDoctor/NewDoctor";
 
 const Doctors = () => {
+  const [newDialog, setNewDialog] = React.useState(false);
+  const [dialogData, setDialogData] = React.useState({});
   const navigate = useNavigate();
   const [selected, setSelected] = useState();
   const gridRef = useRef();
@@ -71,7 +74,8 @@ const Doctors = () => {
 
   const handleButtonClick = (event) => {
     if (event === "newDoctor") {
-      navigate("/admin/doctor/update");
+      setDialogData({ text: "Create a new doctor", btnText: "Create" });
+      setNewDialog(true);
     }
 
     if (selected && event === "update") {
@@ -163,6 +167,14 @@ const Doctors = () => {
           yesText={dialogDetails.yesText}
           yesFun={dialogDetails.yesFun}
           noFun={dialogDetails.noFun}
+        />
+      )}
+
+      {newDialog && (
+        <NewDoctor
+          open={newDialog}
+          handleClose={() => setNewDialog(false)}
+          data={dialogData}
         />
       )}
     </>
