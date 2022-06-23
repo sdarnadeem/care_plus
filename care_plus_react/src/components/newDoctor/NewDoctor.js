@@ -82,7 +82,7 @@ const NewDoctor = ({ open, handleClose, data }) => {
           label="First Name"
           type="text"
           style={{ marginRight: "10px" }}
-          value={data.name}
+          value={data.fName}
           variant="standard"
           inputRef={fNameRef}
         />
@@ -92,7 +92,7 @@ const NewDoctor = ({ open, handleClose, data }) => {
           id="lName"
           label="Last Name"
           type="text"
-          value={data.name}
+          value={data.lName}
           variant="standard"
           inputRef={lNameRef}
         />

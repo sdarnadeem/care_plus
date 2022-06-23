@@ -79,7 +79,17 @@ const Doctors = () => {
     }
 
     if (selected && event === "update") {
-      navigate(`/admin/doctor/update?id=${selected.id}`);
+      setDialogData({
+        text: `Update ${selected.firstName} ${selected.lastName}`,
+        btnText: "Update",
+        fName: selected.firstName,
+        lName: selected.lastName,
+        description: selected.description,
+        clinic: selected.clinic,
+        address: selected.address,
+        contact: selected.contact,
+      });
+      setNewDialog(true);
     }
 
     if (event === "delete") {
