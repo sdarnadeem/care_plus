@@ -25,6 +25,7 @@ export const clinicColumns = [
     headerName: "ID",
     filter: true,
     filterParams: filterTextParams,
+    width: "70px",
   },
   {
     field: "name",
