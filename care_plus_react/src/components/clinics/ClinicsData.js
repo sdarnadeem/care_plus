@@ -37,13 +37,14 @@ export const columns = [
   {
     field: "open",
     headerName: "Open Time",
-    width: "200px",
+    width: "150px",
     filter: true,
     filterParams: filterTextParams,
   },
   {
     field: "close",
     headerName: "Close Time",
+    width: "150px",
     filter: true,
     filterParams: filterTextParams,
   },
