@@ -70,7 +70,7 @@ const NewPatient = ({ open, handleClose, data }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Create a new clinic</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{data.text}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description"></DialogContentText>
         {console.log(data.name)}
@@ -153,7 +153,7 @@ const NewPatient = ({ open, handleClose, data }) => {
           Cancel
         </Button>
         <Button size="small" variant="contained" onClick={onSubmit} autofocus>
-          Create
+          {data.btnText}
         </Button>
       </DialogActions>
     </Dialog>

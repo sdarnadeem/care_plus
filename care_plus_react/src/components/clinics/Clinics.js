@@ -73,12 +73,14 @@ const Clinics = () => {
 
   const handleButtonClick = (text) => {
     if (text === "newClinic") {
-      setData({});
+      setData({ text: "Create a new clinic", btnText: "Create" });
       setShowNewClinicDialog(true);
     } else if (selected) {
       if (text === "update") {
         setShowNewClinicDialog(true);
         setData({
+          text: `Update ${selected.name}`,
+          btnText: "Update",
           name: selected.name,
           description: selected.description,
           address: selected.officeAddress,
