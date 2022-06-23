@@ -21,10 +21,16 @@ let filterTextParams = {
 
 export const columns = [
   {
+    headerName: "S.No",
+    valueGetter: "node.rowIndex + 1",
+    width: "70px",
+  },
+  {
     field: "id",
     headerName: "ID",
     filter: true,
     filterParams: filterTextParams,
+    width: "70px",
   },
   {
     field: "name",
@@ -37,6 +43,7 @@ export const columns = [
     headerName: "Commission",
     filter: true,
     filterParams: filterTextParams,
+    width: "130px",
   },
   {
     field: "clinic",
