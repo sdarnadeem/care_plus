@@ -162,6 +162,8 @@ const Commission = () => {
           getRowClass={getRowClass}
           checkboxSelection={true}
           onRowDoubleClicked={handleRowDoubleClicked}
+          pagination={true}
+          paginationPageSize={10}
         ></AgGridReact>
       </div>
       {openDialog && selected && (
