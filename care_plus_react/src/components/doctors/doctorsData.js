@@ -20,9 +20,29 @@ let firstNameFilterParams = {
 };
 
 export const columnDefs = [
-  { field: "id", filter: true, filterParams: firstNameFilterParams },
-  { field: "firstName", filter: true, filterParams: firstNameFilterParams },
-  { field: "lastName", filter: true, filterParams: firstNameFilterParams },
+  {
+    headerName: "S.No",
+    valueGetter: "node.rowIndex + 1",
+    width: "70px",
+  },
+  {
+    field: "id",
+    filter: true,
+    filterParams: firstNameFilterParams,
+    width: "70px",
+  },
+  {
+    field: "firstName",
+    filter: true,
+    filterParams: firstNameFilterParams,
+    width: "130px",
+  },
+  {
+    field: "lastName",
+    filter: true,
+    filterParams: firstNameFilterParams,
+    width: "130px",
+  },
   { field: "clinic", filter: true, filterParams: firstNameFilterParams },
   { field: "address", filter: true, filterParams: firstNameFilterParams },
 ];
