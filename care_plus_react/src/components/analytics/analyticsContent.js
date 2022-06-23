@@ -602,7 +602,7 @@ export const options = {
   plugins: {
     title: {
       display: true,
-      text: "This Month",
+      text: "This Year",
     },
   },
   scales: {
@@ -610,14 +610,6 @@ export const options = {
       type: "linear",
       display: true,
       position: "left",
-    },
-    y1: {
-      type: "linear",
-      display: true,
-      position: "right",
-      grid: {
-        drawOnChartArea: false,
-      },
     },
   },
 };
@@ -629,9 +621,7 @@ export const optionsData = {
   datasets: [
     {
       label: "Sales",
-      data: labels.map(() =>
-        [100, 200, 300, 150, 200, 500, 700].map((item) => item)
-      ),
+      data: [100, 200, 300, 1000, 1500, 500, 700],
       borderColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
       yAxisID: "y",

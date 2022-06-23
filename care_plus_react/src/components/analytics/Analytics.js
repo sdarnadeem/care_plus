@@ -154,7 +154,11 @@ const Analytics = () => {
           <Box
             sx={{ width: "100%", height: "50vh", bgcolor: "background.paper" }}
           >
-            <Line options={options} data={optionsData} />
+            <Line
+              options={options}
+              data={optionsData}
+              style={{ height: "30vh" }}
+            />
           </Box>
         </Grid>
       </Grid>
