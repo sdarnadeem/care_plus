@@ -151,7 +151,9 @@ const Analytics = () => {
           <Typography variant="h6">Daily Sales Overview</Typography>
         </Grid>
         <Grid item sx={{ width: "100%", bgcolor: "background.paper" }}>
-          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <Box
+            sx={{ width: "100%", height: "50vh", bgcolor: "background.paper" }}
+          >
             <Line options={options} data={optionsData} />
           </Box>
         </Grid>
