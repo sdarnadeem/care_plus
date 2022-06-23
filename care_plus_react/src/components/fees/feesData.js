@@ -21,6 +21,11 @@ let filterTextParams = {
 
 export const clinicColumns = [
   {
+    headerName: "S.No",
+    valueGetter: "node.rowIndex + 1",
+    width: "70px",
+  },
+  {
     field: "id",
     headerName: "ID",
     filter: true,
