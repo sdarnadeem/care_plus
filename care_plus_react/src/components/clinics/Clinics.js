@@ -75,7 +75,6 @@ const Clinics = () => {
     if (text === "newClinic") {
       setData({});
       setShowNewClinicDialog(true);
-      
     } else if (selected) {
       if (text === "update") {
         setShowNewClinicDialog(true);
@@ -102,6 +101,7 @@ const Clinics = () => {
           },
         });
       } else if (text === "block") {
+        setOpenDialog(true);
         setDialogDetails({
           title: `Block ${selected.name} clinic`,
           content: `Are you sure you want to block ${selected.name} clinic`,
