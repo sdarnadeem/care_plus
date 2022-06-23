@@ -38,6 +38,7 @@ export const clinicColumns = [
     headerName: "Fees",
     filter: true,
     filterParams: filterTextParams,
+    width: "80px",
   },
   {
     field: "validFor",
