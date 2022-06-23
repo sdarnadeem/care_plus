@@ -73,7 +73,9 @@ const Clinics = () => {
 
   const handleButtonClick = (text) => {
     if (text === "newClinic") {
+      setData({});
       setShowNewClinicDialog(true);
+      
     } else if (selected) {
       if (text === "update") {
         setShowNewClinicDialog(true);
