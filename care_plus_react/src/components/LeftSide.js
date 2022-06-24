@@ -55,7 +55,7 @@ const LeftSide = () => {
         alignItems="center"
         spacing={1}
         key={id}
-        sx={{ margin: "0 !important", padding: "10px" }}
+        sx={{ margin: "6px", padding: "4px", paddingLeft: "8px" }}
       >
         <Link className={c.icon} to={`?tab=${slug}`}>
           <Icon />
