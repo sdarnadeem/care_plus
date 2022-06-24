@@ -9,7 +9,7 @@ import { Textarea } from "@chakra-ui/react";
 import { UserDataContext } from "./../useContext/UserContext";
 
 import c from "./RightSide.module.css";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 const RightSide = () => {
   const { updateAdminData, adminData } = useContext(UserDataContext);
@@ -49,9 +49,12 @@ const RightSide = () => {
             <Typography variant="h6">Send push notifications</Typography>
           </Grid>
           <Grid item>
-            <Textarea
-              placeholder="Send notification to all users"
-              className={c.textfield}
+            <TextField
+              id="outlined-multiline-static"
+              variant="standard"
+              multiline
+          rows={4}
+              label="send a notification to all users"
             />
           </Grid>
           <Grid item>
